@@ -1,0 +1,43 @@
+FUNCTION_BLOCK napiwek	// Definicja bloku (moze byc wiecej blokow w pliku)
+
+VAR_INPUT				// Definiuje zmienne wejsciowe
+	obsluga : REAL;
+	jedzenie : REAL;
+END_VAR
+
+VAR_OUTPUT				// Definiuje zmienne wyjsciowe
+	napiwek : REAL;
+END_VAR
+
+FUZZIFY obsluga			// Zmienna wejsciowa 'obsluga': {'zla', 'dobra' , 'znakomita'}
+	TERM zla := (0, 1) (4, 0) ; 
+	TERM dobra := (1, 0) (4,1) (6,1) (9,0);
+	TERM znakomita := (6, 0) (9, 1);
+END_FUZZIFY
+
+FUZZIFY jedzenie			// Zmienna wejsciowa 'jedzenie': { 'niezbyt smaczne', 'wysmienite' }
+	TERM niezbytsmaczne := (0, 1) (1, 1) (3,0) ;
+	TERM srednie := (1,0) (3,1) (7,1) (9,0);
+	TERM wysmienite := (7,0) (9,1);
+END_FUZZIFY
+
+DEFUZZIFY napiwek			// Zmienna wyjsciowa 'napiwek' : {'skromny', 'sredni', 'hojny' }
+	TERM skromny := (0,0) (5,1) (11,0);
+	TERM sredni := (9,0) (15,1) (21,0);
+	TERM hojny := (19,0) (25,1) (30,0);
+	METHOD : COG;		// Metoda defuzyfikacji - 'Center Of Gravity' - 'Sreodka ciezkosci'
+	DEFAULT := 0;		
+END_DEFUZZIFY
+
+RULEBLOCK No1
+	AND : MIN;			// Uzycie 'min' jako 'and' (implikuje uzycie 'max' jako 'or' dla zapewnienia praw DeMorgan'a)
+	ACT : MIN;			// Uzycie  'min' jako metody aktywacji
+	ACCU : MAX;			// Metoda agregacji - 'max'
+
+	RULE 1 : IF obsluga IS zla OR jedzenie is niezbytsmaczne THEN napiwek IS skromny;
+	RULE 2 : IF obsluga IS dobra THEN napiwek IS sredni; 
+	RULE 3 : IF obsluga IS znakomita AND jedzenie IS wysmienite THEN napiwek is hojny;
+END_RULEBLOCK
+
+END_FUNCTION_BLOCK
+

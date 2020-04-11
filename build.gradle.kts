@@ -10,6 +10,10 @@ version = "1.0-SNAPSHOT"
 repositories {
     jcenter()
     mavenCentral()
+    flatDir {
+        //  https://sourceforge.net/projects/jfuzzylogic/files/jfuzzylogic/jFuzzyLogic.jar/download
+        dirs("libs")
+    }
 }
 
 val tornadofx_version = "1.7.20"
@@ -17,9 +21,8 @@ val tornadofx_version = "1.7.20"
 dependencies {
     implementation(kotlin("stdlib-jdk8"))
     implementation("no.tornado:tornadofx:$tornadofx_version")
+    implementation("net.sourceforge.jFuzzyLogic:jFuzzyLogic")
 }
-
-val mainClassName = "com.example.demo.app.MyApp"
 
 javafx {
     version = "11"
@@ -36,5 +39,5 @@ tasks {
 }
 
 application {
-    mainClassName = "SnakeApp"
+    mainClassName = "application.SnakeApp"
 }

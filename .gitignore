@@ -105,6 +105,7 @@ fabric.properties
 
 # Package Files #
 *.jar
+!libs/jFuzzyLogic.jar
 *.war
 *.nar
 *.ear
