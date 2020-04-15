@@ -1,0 +1,45 @@
+FUNCTION_BLOCK snake	// Definicja bloku (moze byc wiecej blokow w pliku)
+
+VAR_INPUT				// Definiuje zmienne wejsciowe
+	dlugosc : REAL;
+	widocznosc_jablka : REAL;
+END_VAR
+
+VAR_OUTPUT				// Definiuje zmienne wyjsciowe
+	strategia : REAL;
+END_VAR
+
+FUZZIFY dlugosc			
+	TERM krotki := (0, 1) (10, 0) ; 
+	TERM sredni := (8, 0) (10,1) (20,1) (90,0);
+	TERM dlugi := (85, 0) (100, 1);
+END_FUZZIFY
+
+FUZZIFY widocznosc_jablka
+	TERM da_sie_dojsc := (0.4, 0) (1,1) ;
+	TERM nie_da_sie_dojsc := (0,1) (0.6,0) ;
+END_FUZZIFY
+
+DEFUZZIFY strategia	
+    TERM graj_na_czas := (0,1) (0.25,1) (0.5,0);
+	TERM po_wspolrzednych := (0,0) (1,1) (2,0);
+	TERM jak_najszybciej := (1,0) (2,1) (3,0);
+	TERM jak_najdluzej := (2,0) (3,1) (4, 0);
+	METHOD : COG;		// Metoda defuzyfikacji - 'Center Of Gravity' - 'Sreodka ciezkosci'
+
+	DEFAULT := 0;		
+END_DEFUZZIFY
+
+RULEBLOCK No1
+	AND : MIN;			// Uzycie 'min' jako 'and' (implikuje uzycie 'max' jako 'or' dla zapewnienia praw DeMorgan'a)
+	ACT : MIN;			// Uzycie  'min' jako metody aktywacji
+	ACCU : MAX;			// Metoda agregacji - 'max'
+
+	RULE 0 : IF widocznosc_jablka IS nie_da_sie_dojsc THEN strategia IS graj_na_czas; 
+	RULE 1 : IF dlugosc IS krotki AND widocznosc_jablka IS da_sie_dojsc THEN strategia IS po_wspolrzednych;
+	RULE 2 : IF dlugosc IS sredni AND widocznosc_jablka IS da_sie_dojsc THEN strategia IS jak_najszybciej;
+	RULE 3 : IF dlugosc IS dlugi AND widocznosc_jablka IS da_sie_dojsc THEN strategia IS jak_najdluzej;
+END_RULEBLOCK
+
+END_FUNCTION_BLOCK
+

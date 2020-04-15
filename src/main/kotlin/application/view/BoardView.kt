@@ -43,7 +43,7 @@ class BoardView : View() {
                 values = controller.movementDeciders.keys.toList(),
                 property = mode
             ) {
-                value = "Manual"
+                value = "Fuzzy"
             }
         }
         center = pane {
