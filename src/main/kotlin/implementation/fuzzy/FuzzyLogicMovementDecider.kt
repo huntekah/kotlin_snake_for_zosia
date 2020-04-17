@@ -5,6 +5,7 @@ import api.MovementDecider
 import api.Point
 import api.Tile
 import kotlin.math.roundToInt
+import kotlin.math.absoluteValue
 import kotlin.coroutines.experimental.*
 import java.util.*
 
@@ -442,13 +443,22 @@ fun fastestBFS(
             planningBoard[tile.x][tile.y] = 2
             visibilityBoard[apple.x][apple.y] = 0
             visibilityBoard[tile.x][tile.y] = 2
-            
+            if (manhattanDistance(snake.first(), tile) <= 1){
+                continue
+            }
             if (isAppleVisible(visibilityBoard, snake.first(), tile)){
                 return guidedBFS(planningBoard,snake, tile)
             }
             planningBoard[tile.x][tile.y] = -1
         }
         return Direction.random(snake[0].dirTo(snake[1]))
+    }
+
+    fun manhattanDistance(
+        a: Point,
+        b: Point
+    ): Int {
+        return (a.x - b.x).absoluteValue + (a.y - b.y).absoluteValue
     }
 
  }
