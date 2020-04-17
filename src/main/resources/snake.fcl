@@ -10,9 +10,9 @@ VAR_OUTPUT				// Definiuje zmienne wyjsciowe
 END_VAR
 
 FUZZIFY dlugosc			
-	TERM krotki := (0, 1) (10, 0) ; 
-	TERM sredni := (8, 0) (10,1) (20,1) (90,0);
-	TERM dlugi := (85, 0) (100, 1);
+	TERM krotki := (0, 1) (5, 0) ; 
+	TERM sredni := (4, 0) (6,1) (10,1) (13,0);
+	TERM dlugi := (12, 0) (100, 1);
 END_FUZZIFY
 
 FUZZIFY widocznosc_jablka

@@ -5,11 +5,11 @@ import net.sourceforge.jFuzzyLogic.FIS
 class LogicController {
 
 
-    fun getStrategyType(len: Int): Double {
+    fun getStrategyType(len: Int, isVisible: Int): Double {
         val fis = FIS.load(javaClass.classLoader?.getResource("snake.fcl")?.path, true)
         if (fis != null) {
             fis.setVariable("dlugosc", len.toDouble())
-            fis.setVariable("widocznosc_jablka", 1.0)
+            fis.setVariable("widocznosc_jablka", isVisible.toDouble())
 
             fis.evaluate()
 
