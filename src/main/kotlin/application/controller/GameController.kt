@@ -6,6 +6,7 @@ import api.Point
 import api.Tile
 import api.Tile.*
 import implementation.RandomMovementDecider
+import implementation.ZosiaMovementDecider
 import implementation.fuzzy.FuzzyLogicMovementDecider
 import javafx.scene.input.KeyEvent
 import tornadofx.Controller
@@ -29,6 +30,7 @@ class GameController : Controller() {
     val movementDeciders = mapOf(
         "Random" to RandomMovementDecider(),
         "Fuzzy" to FuzzyLogicMovementDecider(),
+        "Zosia" to ZosiaMovementDecider(),
         "Manual" to object : MovementDecider {
             override fun decide(
                 board: List<List<Tile>>,
@@ -68,6 +70,7 @@ class GameController : Controller() {
             placeThings()
         } else {
             isOn = false
+            println("Is not on")
         }
     }
 

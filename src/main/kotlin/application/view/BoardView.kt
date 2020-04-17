@@ -43,7 +43,7 @@ class BoardView : View() {
                 values = controller.movementDeciders.keys.toList(),
                 property = mode
             ) {
-                value = "Fuzzy"
+                value = "Zosia"
             }
         }
         center = pane {
@@ -65,7 +65,7 @@ class BoardView : View() {
                     }
                 }
             timeline {
-                keyframe(Duration.seconds(0.2)) {
+                keyframe(Duration.seconds(0.02)) {
                     setOnFinished {
                         if (controller.isOn()) {
                             controller.getBoard()
@@ -92,7 +92,8 @@ class BoardView : View() {
 
     private fun getColor(tile: Tile): Color {
         return when (tile) {
-            SNAKE, APPLE -> COLOR_FG
+            SNAKE -> COLOR_FG
+            APPLE -> COLOR_APPLE
             EMPTY -> COLOR_BG
         }
     }
@@ -101,6 +102,7 @@ class BoardView : View() {
         var TILE_WIDTH = 40.0
         var TILE_HEIGHT = 40.0
 
+        val COLOR_APPLE = c("#FF0A0A")
         val COLOR_BG = c("#95C50C")
         val COLOR_FG = c("#435A13")
     }
